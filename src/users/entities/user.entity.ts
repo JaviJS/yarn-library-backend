@@ -1,3 +1,4 @@
+import { Role } from '../../common/enums/role.enum';
 import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -14,7 +15,7 @@ export class User {
   @Column({ unique: true, nullable: false })
   email: string;
 
-  @Column()
+  @Column({nullable: false, select: false})
   password: string;
 
   @Column()
@@ -36,8 +37,8 @@ export class User {
   @Column()
   code_phone: string;
 
-  @Column({default: 'weaver'})
-  role: string;
+  @Column({type: 'enum', default: Role.Weaver, enum: Role})
+  role: Role;
   // @Column()
   // confirm_code: string;
 

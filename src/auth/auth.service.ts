@@ -26,8 +26,7 @@ export class AuthService {
     country,
     code_phone,
   }: RegisterDto) {
-    const username2 = email;
-    const user = await this.usersService.findOneByUsername(username2);
+    const user = await this.usersService.findOneByUsername(email);
     if (user) {
       throw new BadRequestException('Usuario ya existe');
     }
@@ -45,7 +44,7 @@ export class AuthService {
     });
   }
   async login({ username, password }: LoginDto) {
-    const user = await this.usersService.findOneByUsername(username);
+    const user = await this.usersService.findByUsernameWithPassword(username);
     if (!user) {
       throw new UnauthorizedException('Email no es correcto');
     }
@@ -62,11 +61,6 @@ export class AuthService {
   }
 
   async profile({ username, role }: { username: string; role: string }) {
-    // if (role !== 'admin') {
-    //   throw new UnauthorizedException(
-    //     'No estas autorizado para acceder a este recurso',
-    //   );
-    // }
     return await this.usersService.findOneByUsername(username);
   }
 }
